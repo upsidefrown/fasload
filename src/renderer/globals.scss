@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/Open_Sans/OpenSans-Regular.ttf') format("truetype")
+}
+
+// Set brand colors
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #f9f9f8;
+
+// Update Bulma's global variables
+$family-sans-serif: "Open Sans", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $purple;
+$link: $pink;
+
+// Update Bulma's component variables
+$body-background-color: $beige-lighter;
+$control-border-width: 2px;
+$input-shadow: none;
+
+// Import only what's needed from Bulma (node_modules/bulma/..)
+@import "bulma/sass/utilities/_all.sass";
+@import "bulma/sass/base/_all.sass";
+@import "bulma/sass/elements/button.sass";
+@import "bulma/sass/elements/container.sass";
+@import "bulma/sass/elements/title.sass";
+@import "bulma/sass/form/_all.sass";
+// @import "bulma/sass/components/navbar.sass";
+// @import "bulma/sass/layout/hero.sass";
+// @import "bulma/sass/layout/section.sass";
