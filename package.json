@@ -53,7 +53,6 @@
     }
   },
   "dependencies": {
-    "bulma": "^0.9.0",
     "electron-window-state": "^5.0.3",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
@@ -61,6 +60,7 @@
     "vuex-electron": "^1.0.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.1",
     "ajv": "^6.5.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -70,6 +70,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
+    "buefy": "^0.8.20",
     "cfonts": "^2.1.2",
     "chalk": "^2.4.1",
     "copy-webpack-plugin": "^4.5.1",
