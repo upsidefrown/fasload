@@ -12,7 +12,8 @@ $purple: #8A4D76;
 $pink: #FA7C91;
 $brown: #757763;
 $beige-light: #D0D1CD;
-$beige-lighter: #f9f9f8;
+$beige-lighter: #ebebeb;
+$beige-lightest: #f9f9f8;
 
 $primary: $purple;
 $primary-invert: findColorInvert($primary);
@@ -23,9 +24,16 @@ $colors: (
   "success": ($success, $success-invert),
   "warning": ($warning, $warning-invert),
   "danger": ($danger, $danger-invert),
+  "light": ($beige-lighter, $primary)
   );
 
-$body-background-color: $beige-lighter;
+$body-background-color: $beige-lightest;
+$checkbox-active-background-color: white;
+$checkbox-border-color: #dbdbdb;
+$checkbox-border-radius: 0;
+$checkbox-border-width: 1px;
+$checkbox-size: 36px;
+$checkbox-checkmark-color: $light;
   
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
