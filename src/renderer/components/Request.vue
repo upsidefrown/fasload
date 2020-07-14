@@ -93,7 +93,8 @@
             v-show="radio === 'text'">
             <textarea 
               class="textarea" 
-              placeholder="Something crazy..."></textarea>
+              placeholder="Something crazy..."
+              v-model="request.body.text"></textarea>
           </div>
 
           <KeyVal
