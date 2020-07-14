@@ -87,11 +87,14 @@
               v-model="radio">form</b-radio>
           </div>
 
-          <textarea 
+          <div 
             id="text-box"
-            class="column is-full textarea" 
-            placeholder="Something crazy..." 
-            v-show="radio === 'text'"></textarea>
+            class="column is-full"
+            v-show="radio === 'text'">
+            <textarea 
+              class="textarea" 
+              placeholder="Something crazy..."></textarea>
+          </div>
 
           <KeyVal
             class="column is-full"
@@ -167,11 +170,12 @@
     font-size: .84rem
   
 #text-box
-  border-top-left-radius: 0
-  border-top-right-radius: 0
-  box-shadow: none
   margin-top: -1px
-  font-size: .94rem
-  padding: 1rem
+
+  .textarea
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+    box-shadow: none
+    font-size: .94rem
 
 </style>
