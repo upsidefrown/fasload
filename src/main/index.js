@@ -1,7 +1,8 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
+import { formatToAxios, sendRequests } from '../utils/requests'
 
 const env = {
   isMac: process.platform === 'darwin',
@@ -50,4 +51,12 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (mainWindow === null) createWindow()
+})
+
+ipcMain.on('run-test', async (e, request) => {
+  request = formatToAxios(request)
+
+  const results = await sendRequests(50, request)
+
+  mainWindow.webContents.send('test-results', results)
 })

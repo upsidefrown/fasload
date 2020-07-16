@@ -16,12 +16,14 @@ export default new Vuex.Store({
         form: []
       },
       body: {
+        active: 'none',
         text: '',
         form: []
       }
     },
     test: {
-      awaitingResponse: false
+      active: false,
+      results: ''
     }
   },
   mutations: {
@@ -30,9 +32,6 @@ export default new Vuex.Store({
     },
     removeRow: (state, { activeTab, idx }) => {
       state.request[activeTab].form.splice(idx, 1)
-    },
-    runTest: state => {
-      state.test.awaitingResponse = true
     }
   }
 })

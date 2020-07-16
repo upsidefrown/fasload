@@ -82,7 +82,7 @@
     margin-bottom: 0
 
   #remove-title, #key-title, #value-title
-    height: 1.8rem
+    height: 1.9rem
 
   #remove-title
     width: 2rem

@@ -19,11 +19,13 @@
       <button
         class="button is-primary test-btn" 
         type="submit"
-        :class="{'is-loading': test.awaitingResponse}"
+        :class="{'is-loading': test.active}"
         @click="runTest">TEST</button>
     </div>
 
-    <div class="timer is-flex has-text-grey-light">00:00</div>
+    <div 
+      class="timer is-flex has-text-grey-light"
+      >00:00</div>
 
     <div class="request-plus">
         <div 
@@ -108,8 +110,9 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState } from 'vuex'
   import KeyVal from './KeyVal.vue'
+  import { ipcRenderer } from 'electron'
 
   export default {
     name: 'Request',
@@ -126,9 +129,16 @@
       ...mapState(['request', 'test'])
     },
     methods: {
-      ...mapMutations(['runTest']),
       activate (tab) {
         this.activeTab = tab
+      },
+      runTest () {
+        ipcRenderer.send('run-test', this.request)
+        this.test.active = true
+        ipcRenderer.on('test-results', (e, results) => {
+          this.test.active = false
+          this.test.results = results
+        })
       }
     }
   }
@@ -160,7 +170,7 @@
   border-bottom-left-radius: 0
 
 #body-type
-  height: 1.8rem
+  height: 1.9rem
   width: 100%
   border: 1px solid #dbdbdb
   margin-top: -1px

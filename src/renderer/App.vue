@@ -1,29 +1,20 @@
 <template>
   <div id="app">
-    <Request @request="runTest"></Request>
-    <div>
-      {{ response }}
-    </div>
+    <Request></Request>
+    <TestResults
+      id="test-results"></TestResults>
   </div>
 </template>
 
 <script>
-  import Request from './components/Request'
+  import Request from '@/components/Request'
+  import TestResults from '@/components/TestResults.vue'
 
   export default {
     name: 'fasload',
     components: {
-      Request
-    },
-    data () {
-      return {
-        response: ''
-      }
-    },
-    methods: {
-      runTest (request) {
-        this.response = request
-      }
+      Request,
+      TestResults
     }
   }
 </script>
@@ -33,5 +24,8 @@
 
   #app
     padding: 2rem
+
+  #test-results
+    margin-top: 5rem
   
 </style>
