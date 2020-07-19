@@ -13,8 +13,7 @@
         class="input url"
         type="text"
         placeholder="URL"
-        v-model="request.url" 
-        @keyup.enter="runTest"/>
+        v-model="request.url"/>
 
       <button
         class="button is-primary test-btn" 
@@ -23,9 +22,7 @@
         @click="runTest">TEST</button>
     </div>
 
-    <div 
-      class="timer is-flex has-text-grey-light"
-      >00:00</div>
+    <TestTimer />
 
     <div class="request-plus">
         <div 
@@ -110,14 +107,16 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
+  
   import KeyVal from './KeyVal.vue'
-  import { ipcRenderer } from 'electron'
+  import TestTimer from './TestTimer.vue'
 
   export default {
-    name: 'Request',
+    name: 'RequestForm',
     components: {
-      KeyVal
+      KeyVal,
+      TestTimer
     },
     data () {
       return {
@@ -129,16 +128,9 @@
       ...mapState(['request', 'test'])
     },
     methods: {
+      ...mapActions(['runTest']),
       activate (tab) {
         this.activeTab = tab
-      },
-      runTest () {
-        ipcRenderer.send('run-test', this.request)
-        this.test.active = true
-        ipcRenderer.on('test-results', (e, results) => {
-          this.test.active = false
-          this.test.results = results
-        })
       }
     }
   }
@@ -154,13 +146,6 @@
     padding: 0 1.6rem
     letter-spacing: .1rem
     font-weight: bold
-
-.timer
-  justify-content: flex-end
-  margin-top: 1rem
-  margin-right: .25rem
-  font-weight: bold
-  letter-spacing: .2px
 
 #tabs
   margin-bottom: 0

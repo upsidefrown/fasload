@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <Request></Request>
+    <RequestForm></RequestForm>
     <TestResults
       id="test-results"></TestResults>
   </div>
 </template>
 
 <script>
-  import Request from '@/components/Request'
+  import RequestForm from '@/components/RequestForm'
   import TestResults from '@/components/TestResults.vue'
 
   export default {
     name: 'fasload',
     components: {
-      Request,
+      RequestForm,
       TestResults
     }
   }

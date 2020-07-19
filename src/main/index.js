@@ -56,7 +56,7 @@ app.on('activate', () => {
 ipcMain.on('run-test', async (e, request) => {
   request = formatToAxios(request)
 
-  const results = await sendRequests(50, request)
+  const results = await sendRequests(20, request)
 
   mainWindow.webContents.send('test-results', results)
 })
