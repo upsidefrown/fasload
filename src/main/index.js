@@ -2,7 +2,8 @@
 
 import { app, BrowserWindow, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
-import { formatToAxios, sendRequests } from '../utils/requests'
+import { formatToAxios } from '../utils/format'
+import { deployWorkers } from '../utils/workers'
 
 const env = {
   isMac: process.platform === 'darwin',
@@ -53,10 +54,12 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow()
 })
 
-ipcMain.on('run-test', async (e, request) => {
-  request = formatToAxios(request)
+// IPC Channel
 
-  const results = await sendRequests(20, request)
+ipcMain.on('run-test', async (e, request, load, workers) => {
+  request = formatToAxios(request)
+  
+  const results = await deployWorkers(request, load, workers)
 
   mainWindow.webContents.send('test-results', results)
 })

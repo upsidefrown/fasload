@@ -25,6 +25,8 @@ export default new Vuex.Store({
     },
     test: {
       active: false,
+      load: 10,
+      workers: 8,
       timer: {
         name: null,
         time: 0
@@ -63,7 +65,7 @@ export default new Vuex.Store({
     runTest ({commit, state}) {
       commit('resetTimer')
       commit('resetTestResults')
-      ipcRenderer.send('run-test', state.request)
+      ipcRenderer.send('run-test', state.request, state.test.load, state.test.workers)
       commit('startTimer')
       commit('toggleTest')
 

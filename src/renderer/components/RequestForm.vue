@@ -3,14 +3,14 @@
     <div class="request-base is-flex">
 
       <div class="select">
-        <select v-model="request.method">
+        <select v-model="request.method" class="has-text-grey">
           <option value="get">GET</option>
           <option value="post">POST</option>
           <option value="put">PUT</option>
           <option value="delete">DELETE</option></select></div>
 
       <input 
-        class="input url"
+        class="input url has-text-grey"
         type="text"
         placeholder="URL"
         v-model="request.url"/>
@@ -102,6 +102,8 @@
             v-show="radio === 'form'"></KeyVal>
         </div>
 
+        <TestSettings
+          id="test-settings"></TestSettings>
     </div>
   </section>
 </template>
@@ -111,12 +113,14 @@
   
   import KeyVal from './KeyVal.vue'
   import TestTimer from './TestTimer.vue'
+  import TestSettings from './TestSettings'
 
   export default {
     name: 'RequestForm',
     components: {
       KeyVal,
-      TestTimer
+      TestTimer,
+      TestSettings
     },
     data () {
       return {
@@ -173,5 +177,8 @@
     border-top-right-radius: 0
     box-shadow: none
     font-size: .94rem
+
+#test-settings
+  margin-top: 2rem
 
 </style>

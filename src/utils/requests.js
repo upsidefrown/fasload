@@ -1,48 +1,6 @@
-import axios from 'axios'
-
-/**
- * Formats nested key val array to key val map
- * @param {Array} keyValArray - [['key', 'val'], ..]
- * @returns {Object} - { key: val, ..}
- */
-export const formatKeyVal = keyValArray => {
-  const keyValObj = {}
-
-  // strip out empties (if BOTH key and val empty)
-  for (let keyVal of keyValArray) {
-    if (keyVal[0] === '' && keyVal[1] === '') continue
-
-    keyValObj[keyVal[0]] = keyVal[1]
-  }
-
-  return keyValObj
-}
-
-/**
- * Formats a request object to axios config input
- * @param {Object} request - provided request object
- * @returns {Object} - formatted to axios request config
- */
-export const formatToAxios = request => {
-  const params = request.params.form
-  const headers = request.headers.form
-  const body = request.body[request.body.active]
-
-  const axiosConfig = {
-    method: request.method,
-    url: request.url
-  }
-
-  if (params.length > 0) axiosConfig.params = formatKeyVal(params)
-  if (headers.length > 0) axiosConfig.headers = formatKeyVal(headers)
-  if (request.body.active === 'form') {
-    if (body.length > 0) axiosConfig.body = formatKeyVal(body)
-  } else {
-    axiosConfig.body = body
-  }
-
-  return axiosConfig
-}
+const axios = require('axios')
+const load = Number(process.argv[2])
+const request = process.argv[3]
 
 /**
  * Send requests to target server
@@ -51,7 +9,8 @@ export const formatToAxios = request => {
  * @return {Promise} - request times (ms) in send order + any index mapped errors
  */
 
-export const sendRequests = async (load, request) => {
+const sendRequests = async (load, request) => {
+  request = JSON.parse(request) // string from process arg
   const requests = []
   const errors = {}
 
@@ -75,8 +34,13 @@ export const sendRequests = async (load, request) => {
       times: await Promise.all(requests),
       errors
     }
-    return responses
+
+    process.send(responses) // pass responsse up to parent process
   } catch (e) {
     throw new Error(`Sending requests failed:\n${e}`)
   }
-}
+};
+
+( async () => {
+  await sendRequests(load, request)
+})()
