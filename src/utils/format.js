@@ -41,3 +41,42 @@ export const formatToAxios = request => {
 
   return axiosConfig
 }
+
+/**
+ * Aggregates responses from request workers
+ * @param {Array} responses - load test aggregate worker responses
+ * @returns {Object} - {errors, times}
+ */
+export const aggregateResponses = responses => {
+  let errors = []
+  let times = []
+
+  responses.forEach(response => {
+    if (response.errors) errors = errors.concat(response.errors)
+    times = times.concat(response.times)
+  })
+
+  return { errors, times }
+}
+
+export const latencyDistribution = aggregateResponses => {
+  const distribution = {}
+
+  const times = aggregateResponses.times.sort((a, b) => a - b)
+
+  const tenPercentIdx = Math.floor(times.length / 10)
+  const twentyFivePercentIdx = Math.floor(times.length / 4)
+  const fiftyPercentIdx = Math.floor(times.length / 2)
+  const seventyFivePercentIdx = twentyFivePercentIdx + fiftyPercentIdx
+  const ninetyPercentIdx = times.length - tenPercentIdx
+  const ninetyNinePercentIdx = times.length - Math.floor(times.length / 100)
+
+  if (tenPercentIdx) distribution['10'] = times[tenPercentIdx + 1]
+  if (twentyFivePercentIdx) distribution['25'] = times[twentyFivePercentIdx + 1]
+  if (fiftyPercentIdx) distribution['50'] = times[fiftyPercentIdx + 1]
+  if (seventyFivePercentIdx) distribution['75'] = times[seventyFivePercentIdx + 1]
+  if (ninetyPercentIdx) distribution['90'] = times[ninetyPercentIdx + 1]
+  if (ninetyNinePercentIdx) distribution['99'] = times[ninetyNinePercentIdx + 1]
+
+  return distribution
+}

@@ -41,6 +41,6 @@ const sendRequests = async (load, request) => {
   }
 };
 
-( async () => {
+(async () => {
   await sendRequests(load, request)
 })()
