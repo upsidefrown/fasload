@@ -3,9 +3,12 @@ import Vuex from 'vuex'
 
 import { ipcRenderer } from 'electron'
 
+import { createPersistedState } from 'vuex-electron'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [ createPersistedState() ],
   state: {
     activeTab: 'params',
     request: {
