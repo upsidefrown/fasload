@@ -66,6 +66,9 @@ export default new Vuex.Store({
     resetTimer (state) {
       state.test.timer.name = null
       state.test.timer.time = 0
+    },
+    resetOnAppReload (state) {
+      state.test.active = false
     }
   },
   actions: {

@@ -17,5 +17,8 @@ Vue.config.productionTip = false
 new Vue({
   store,
   components: { App },
+  created () {
+    this.$store.commit('resetOnAppReload')
+  },
   render: h => h(App)
 }).$mount('#app')
