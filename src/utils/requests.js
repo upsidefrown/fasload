@@ -5,25 +5,30 @@ const request = process.argv[3]
 /**
  * Send requests to target server
  * @param {Number} load - amount of requests to send
- * @param {Object} request - axios request parameters and options
- * @return {Promise} - request times (ms) in send order + any index mapped errors
+ * @param {Object} request - axios request config { url: '', method: '', [params: {}], [headers: {}], [data: {}]}
+ * @return {Promise} - { times: [], statusCodes: [] }
  */
 
 const sendRequests = async (load, request) => {
   request = JSON.parse(request) // string from process arg
-  const requests = []
-  const errors = {}
+  const requestTimes = []
+  const statusCodes = []
 
   for (let i = 0; load > i; i++) {
-    const t0 = Date.now() // (start time) closure
+    const t0 = Date.now() // (request start time) closure
 
-    requests.push(
+    requestTimes.push(
       axios(request)
-        .then(() => Date.now() - t0) // end time on resolve
+        .then((response) => {
+          let milliseconds = Date.now() - t0 // end time right after promise resolve
+          statusCodes.push(response.status)
+
+          return milliseconds
+        })
         .catch(e => {
           let milliseconds = Date.now() - t0 // keep as first operation
+          e.response ? statusCodes.push(e.response.status) : statusCodes.push(e.code)
 
-          e.response ? errors[i] = e.response.status : errors[i] = e.code
           return milliseconds
         })
     )
@@ -31,8 +36,8 @@ const sendRequests = async (load, request) => {
 
   try {
     const responses = {
-      times: await Promise.all(requests),
-      errors
+      times: await Promise.all(requestTimes),
+      statusCodes
     }
 
     process.send(responses) // pass responsse up to parent process

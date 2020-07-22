@@ -43,26 +43,47 @@ export const formatToAxios = request => {
 }
 
 /**
- * Aggregates responses from request workers
- * @param {Array} responses - load test aggregate worker responses
- * @returns {Object} - {errors, times}
+ * Aggregates all responses from request workers
+ * @param {Array} responses - worker responses [ { times: [], statusCodes: [] }, ...]
+ * @returns {Object} - { times: [], statusCodes: { code: amount, ... } }
  */
 export const aggregateResponses = responses => {
-  let errors = []
   let times = []
+  let statusCodes = {}
 
   responses.forEach(response => {
-    if (response.errors) errors = errors.concat(response.errors)
     times = times.concat(response.times)
+
+    response.statusCodes.forEach(code => {
+      if (statusCodes[code]) {
+        statusCodes[code] += 1
+      } else {
+        statusCodes[code] = 1
+      }
+    })
   })
 
-  return { errors, times }
+  return { times, statusCodes }
 }
 
-export const latencyDistribution = aggregateResponses => {
-  const distribution = {}
+/**
+ * Sorts array of int times
+ * @param {Array} times - unsorted, single depth array of int times
+ * @returns {Array} - [ sorted times ... ]
+ */
+export const sortTimes = times => {
+  // TODO: implement better sorting algorithm for large data sets
+  return times.sort((a, b) => a - b)
+}
 
-  const times = aggregateResponses.times.sort((a, b) => a - b)
+/**
+ * Formats sorted response times to a percentile distribution
+ * @param {Array} sortedResponseTimes - sorted, single depth array of int response times
+ * @returns {Object} - { 10: requestTimesforPercentile, 25: requestTimesforPercentile, ...}
+ */
+export const latencyDistribution = sortedResponseTimes => {
+  const distribution = {}
+  const times = sortedResponseTimes
 
   const tenPercentIdx = Math.floor(times.length / 10)
   const twentyFivePercentIdx = Math.floor(times.length / 4)

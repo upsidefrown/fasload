@@ -31,7 +31,10 @@ export default new Vuex.Store({
         name: null,
         time: 0
       },
-      results: ''
+      results: {
+        distribution: '',
+        statusCodes: ''
+      }
     }
   },
   mutations: {
@@ -48,7 +51,8 @@ export default new Vuex.Store({
       state.test.results = results
     },
     resetTestResults (state) {
-      state.test.results = ''
+      state.test.results.distribution = ''
+      state.test.results.statusCodes = ''
     },
     startTimer: (state) => {
       state.test.timer.name = setInterval(() => { state.test.timer.time++ }, 1000)

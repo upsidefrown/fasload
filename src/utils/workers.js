@@ -1,6 +1,14 @@
 import { fork } from 'child_process'
 import { join } from 'path'
 
+/**
+ * Deploys workers to perform axios requests concurrently
+ * @param {Object} request - axios request options { url: '', method: '', [params: {}], [headers: {}], [data: {body}]}
+ * @param {Number} load - int amount of requests to send
+ * @param {Number} workers - int amount of concurrent worker processes to spin up
+ * @returns {Promise} - worker responses [ { times: [], statusCodes: { code: amount } }, ... ]
+ */
+
 export const deployWorkers = async (request, load, workers) => {
   const requestWorkerPath = join(__dirname, 'requests')
   const equalLoad = Math.floor(load / workers)

@@ -2,7 +2,7 @@
 
 import { app, BrowserWindow, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
-import { formatToAxios, aggregateResponses, latencyDistribution } from '../utils/format'
+import { formatToAxios, aggregateResponses, sortTimes, latencyDistribution } from '../utils/format'
 import { deployWorkers } from '../utils/workers'
 
 const env = {
@@ -59,9 +59,10 @@ app.on('activate', () => {
 ipcMain.on('run-test', async (e, request, load, workers) => {
   request = formatToAxios(request)
 
-  const results = await deployWorkers(request, load, workers)
+  const responses = await deployWorkers(request, load, workers)
+  const aggResponses = aggregateResponses(responses)
+  const distribution = latencyDistribution(sortTimes(aggResponses.times))
+  const statusCodes = aggResponses.statusCodes
 
-  const formattedResults = latencyDistribution(aggregateResponses(results))
-
-  mainWindow.webContents.send('test-results', formattedResults)
+  mainWindow.webContents.send('test-results', { distribution, statusCodes })
 })
