@@ -17,7 +17,7 @@ const env = {
 let mainWindow
 
 function createWindow () {
-  let state = windowStateKeeper({ defaultWidth: 960, defaultHeight: 680 })
+  let windowState = windowStateKeeper({ defaultWidth: 960, defaultHeight: 680 })
 
   mainWindow = new BrowserWindow({
     width: state.width,
@@ -34,7 +34,7 @@ function createWindow () {
     }
   })
 
-  state.manage(mainWindow)
+  windowState.manage(mainWindow)
 
   mainWindow.loadURL(env.mainURL)
   mainWindow.once('ready-to-show', mainWindow.show) // preload ('once' frees for garbage collection)
