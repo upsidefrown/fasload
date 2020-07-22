@@ -20,10 +20,10 @@ function createWindow () {
   let windowState = windowStateKeeper({ defaultWidth: 960, defaultHeight: 680 })
 
   mainWindow = new BrowserWindow({
-    width: state.width,
-    height: state.height,
-    x: state.x,
-    y: state.y,
+    width: windowState.width,
+    height: windowState.height,
+    x: windowState.x,
+    y: windowState.y,
     minWidth: 840,
     minHeight: 515,
     backgroundColor: 'white',
