@@ -7,6 +7,7 @@
           <option value="get">GET</option>
           <option value="post">POST</option>
           <option value="put">PUT</option>
+          <option value="put">PATCH</option>
           <option value="delete">DELETE</option></select></div>
 
       <input 

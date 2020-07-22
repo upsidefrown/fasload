@@ -15,7 +15,7 @@
 
     <h1
       class="status-codes-title is-size-5 has-text-primary">
-      Status Codes</h1>
+      Status Codes & Errors</h1>
     <ul>
       <li
       class="status-codes has-text-grey"
