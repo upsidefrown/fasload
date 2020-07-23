@@ -23,6 +23,7 @@ export default new Vuex.Store({
       body: {
         active: 'none',
         text: '',
+        json: '',
         form: []
       }
     },

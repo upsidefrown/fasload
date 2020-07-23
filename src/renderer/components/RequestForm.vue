@@ -74,33 +74,44 @@
               class="radio" 
               name="none"
               native-value="none"
-              v-model="radio">none</b-radio>
+              v-model="request.body.active">none</b-radio>
             <b-radio 
               class="radio"
               name="text"
               native-value="text"
-              v-model="radio">text</b-radio>
+              v-model="request.body.active">text</b-radio>
+            <b-radio 
+              class="radio"
+              name="json"
+              native-value="json"
+              v-model="request.body.active">json</b-radio>
             <b-radio 
               class="radio"
               name="form"
               native-value="form"
-              v-model="radio">form</b-radio>
+              v-model="request.body.active">form</b-radio>
           </div>
 
           <div 
-            id="text-box"
-            class="column is-full"
-            v-show="radio === 'text'">
+            class="text-box column is-full"
+            v-show="request.body.active === 'text'">
             <textarea 
               class="textarea" 
               placeholder="Something crazy..."
-              v-model="request.body.text"></textarea>
-          </div>
+              v-model="request.body.text"></textarea></div>
+
+          <div 
+            class="text-box column is-full"
+            v-show="request.body.active === 'json'">
+            <textarea 
+              class="textarea" 
+              placeholder="Some JSON ..."
+              v-model="request.body.json"></textarea></div>
 
           <KeyVal
             class="column is-full"
             :activeTab="activeTab"
-            v-show="radio === 'form'"></KeyVal>
+            v-show="request.body.active === 'form'"></KeyVal>
         </div>
 
         <TestSettings
@@ -125,8 +136,7 @@
     },
     data () {
       return {
-        activeTab: 'params',
-        radio: 'none'
+        activeTab: 'params'
       }
     },
     computed: {
@@ -170,7 +180,7 @@
     padding-left: 1.8rem
     font-size: .84rem
   
-#text-box
+.text-box
   margin-top: -1px
 
   .textarea

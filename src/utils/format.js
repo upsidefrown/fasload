@@ -31,13 +31,11 @@ export const formatToAxios = request => {
     url: request.url
   }
 
-  if (params.length > 0) axiosConfig.params = formatKeyVal(params)
-  if (headers.length > 0) axiosConfig.headers = formatKeyVal(headers)
-  if (request.body.active === 'form') {
-    if (body.length > 0) axiosConfig.body = formatKeyVal(body)
-  } else {
-    axiosConfig.body = body
-  }
+  if (params.length) axiosConfig.params = formatKeyVal(params)
+  if (headers.length) axiosConfig.headers = formatKeyVal(headers)
+  if (request.body.active === 'form' && body.length) axiosConfig.data = formatKeyVal(body)
+  if (request.body.active === 'text' && body) axiosConfig.data = body
+  if (request.body.active === 'json' && body) axiosConfig.data = JSON.parse(body)
 
   return axiosConfig
 }
