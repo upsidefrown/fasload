@@ -23,6 +23,7 @@
         class="input has-text-grey"
         placeholder="8"
         min="1"
+        :max="test.load"
         type="number"
         v-model="test.workers" /></div>
 
