@@ -14,7 +14,7 @@
         class="input url has-text-grey"
         type="text"
         placeholder="URL"
-        v-model="request.url"/>
+        v-model="urlPlusParams"/>
 
       <button
         class="button is-primary test-btn" 
@@ -140,7 +140,24 @@
       }
     },
     computed: {
-      ...mapState(['request', 'test'])
+      ...mapState(['request', 'test']),
+      urlPlusParams () {
+        let formattedURL = this.request.url
+        let firstEntry
+
+        for (let entry of this.request.params.form) {
+          if (!entry[0] && !entry[1]) continue
+
+          if (!firstEntry) {
+            firstEntry = true
+            formattedURL += `?${entry[0]}=${entry[1]}`
+          } else {
+            formattedURL += `&${entry[0]}=${entry[1]}`
+          }
+        }
+
+        return formattedURL
+      }
     },
     methods: {
       ...mapActions(['runTest']),
