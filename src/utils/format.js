@@ -1,3 +1,5 @@
+import FormData from 'form-data'
+
 /**
  * Formats nested key val array to key val map
  * @param {Array} keyValArray - [['key', 'val'], ..]
@@ -31,11 +33,23 @@ export const formatToAxios = request => {
     url: request.url
   }
 
-  if (params.length) axiosConfig.params = formatKeyVal(params)
   if (headers.length) axiosConfig.headers = formatKeyVal(headers)
-  if (request.body.active === 'form' && body.length) axiosConfig.data = formatKeyVal(body)
-  if (request.body.active === 'text' && body) axiosConfig.data = body
-  if (request.body.active === 'json' && body) axiosConfig.data = JSON.parse(body)
+  if (params.length) axiosConfig.params = formatKeyVal(params)
+
+  // request body excluded for GET requests
+  if (request.method !== 'get') {
+    if (request.body.active === 'form' && body.length) {
+      const form = new FormData()
+      body.forEach(keyVal => {
+        form.append(keyVal[0], keyVal[1])
+      })
+  
+      axiosConfig.data = body
+    }
+  
+    if (request.body.active === 'text' && body) axiosConfig.data = body
+    if (request.body.active === 'json' && body) axiosConfig.data = JSON.parse(body)
+  }
 
   return axiosConfig
 }
