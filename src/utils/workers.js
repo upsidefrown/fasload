@@ -18,7 +18,7 @@ export const deployWorkers = async (request, load, workers) => {
   for (let i = 1; i <= workers; i++) {
     const worker = {}
 
-    if (i === workers) { // last worker gets remainder load, such is life
+    if (i === Number(workers)) { // last worker gets remainder load, such is life
       worker[i] = fork(requestWorkerPath, [(equalLoad + remainderLoad).toString(), JSON.stringify(request)])
     } else {
       worker[i] = fork(requestWorkerPath, [equalLoad.toString(), JSON.stringify(request)])
