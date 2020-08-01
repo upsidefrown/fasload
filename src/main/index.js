@@ -61,8 +61,9 @@ ipcMain.on('run-test', async (e, request, load, workers) => {
 
   const responses = await deployWorkers(request, load, workers)
   const aggResponses = aggregateResponses(responses)
-  const distribution = latencyDistribution(sortTimes(aggResponses.times))
+  const times = sortTimes(aggResponses.times)
+  const distribution = latencyDistribution(times)
   const statusCodes = aggResponses.statusCodes
 
-  mainWindow.webContents.send('test-results', { distribution, statusCodes })
+  mainWindow.webContents.send('test-results', { times, distribution, statusCodes })
 })

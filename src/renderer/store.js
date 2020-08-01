@@ -36,6 +36,7 @@ export default new Vuex.Store({
         time: 0
       },
       results: {
+        times: '',
         distribution: '',
         statusCodes: ''
       }
@@ -86,6 +87,17 @@ export default new Vuex.Store({
         commit('toggleTest')
         commit('updateTestResults', results)
       })
+    }
+  },
+  getters: {
+    testTimesChart (state) {
+      let labels = Array.from(Array(Number(state.test.results.times.length)), (_, i) => i + 1)
+      let datasets = [{
+        backgroundColor: '#f87979',
+        data: state.test.results.times
+      }]
+
+      return { labels, datasets }
     }
   }
 })
