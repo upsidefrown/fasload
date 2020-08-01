@@ -25,6 +25,7 @@
         min="1"
         :max="test.load"
         type="number"
+        :class="{ invalid : invalidWorkers }"
         v-model="test.workers" /></div>
 
   </section>
@@ -35,7 +36,12 @@
 
   export default {
     name: 'TestSettings',
-    computed: mapState(['test'])
+    computed: {
+      ...mapState(['test']),
+      invalidWorkers () {
+        return Number(this.test.workers) > Number(this.test.load)
+      }
+    }
   }
 </script>
 
@@ -65,5 +71,8 @@
     &:focus
       border-color: #dbdbdb
       box-shadow: none
+
+  .invalid
+    background-color: #fcd0bb
     
 </style>
