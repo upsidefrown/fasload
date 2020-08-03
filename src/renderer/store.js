@@ -71,6 +71,13 @@ export default new Vuex.Store({
     },
     resetOnAppReload (state) {
       state.test.active = false
+    },
+    appendFilePathToBodyForm (state, { idx, filePath }) {
+      // 'file' indicator in place for differentiation & processing down the line
+      state.request.body.form[idx][1] = ['file', filePath]
+    },
+    removeFile (state, idx) {
+      state.request.body.form[idx][1] = ''
     }
   },
   actions: {
@@ -86,6 +93,12 @@ export default new Vuex.Store({
         commit('stopTimer')
         commit('toggleTest')
         commit('updateTestResults', results)
+      })
+    },
+    uploadFile ({commit}, idx) {
+      ipcRenderer.send('upload-files')
+      ipcRenderer.once('file', (e, filePath) => {
+        commit('appendFilePathToBodyForm', {idx, filePath})
       })
     }
   },

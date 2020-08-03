@@ -39,13 +39,30 @@
           @keyup.enter="addRow(activeTab)" /></div>
       <div 
         id="value-field" 
-        class="column">
+        class="column is-flex level">
         <input 
           id="value" 
           type="text" 
-          class="input has-text-grey" 
-          v-model="request[activeTab].form[idx][1]" 
-          @keyup.enter="addRow(activeTab)"></div>
+          class="input has-text-grey"
+          v-show="!Array.isArray(request[activeTab].form[idx][1])"
+          v-model="request[activeTab].form[idx][1]"
+          @keyup.enter="addRow(activeTab)">
+          <i 
+            class="files-upload fas fa-file-download has-text-grey-lighter"
+            v-show="activeTab === 'body' && !request[activeTab].form[idx][1]"
+            @click="uploadFile(idx)"></i>
+        <div
+          class="file"
+          v-if="Array.isArray(request[activeTab].form[idx][1])">
+          <span
+            class="filename has-text-grey has-background-white-ter">
+            {{ request[activeTab].form[idx][1][1] | formatToFileName }}</span>
+            <a 
+              id="remove-file"
+              class="delete is-medium" 
+              @click="removeFile(idx)"></a></div>
+      </div>
+
     </div>
 
     <div 
@@ -59,16 +76,24 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapActions } from 'vuex'
 
   export default {
     name: 'KeyVal',
     props: [ 'activeTab' ],
     methods: {
-      ...mapMutations(['addRow', 'removeRow'])
+      ...mapMutations(['addRow', 'removeRow', 'removeFile']),
+      ...mapActions(['uploadFile'])
     },
     computed: {
       ...mapState(['request'])
+    },
+    filters: {
+      formatToFileName (filePath) {
+        const split = filePath.split('/')
+
+        return split[split.length - 1]
+      }
     }
   }
 </script>
@@ -113,6 +138,7 @@
     justify-content: center
     
   #key-field, #value-field
+    width: 40%
     margin-left: -1px
 
   #key, #value
@@ -127,6 +153,27 @@
     &:focus
       border-color: #dbdbdb
       box-shadow: none
+
+  .files-upload
+    padding-right: .2rem
+    font-size: 1.3rem
+
+    &:hover
+      cursor: pointer
+
+  .file
+    max-width: 99%
+    padding: 0 2%
+
+  .filename
+    padding: 0 .2rem
+    border-radius: .2rem
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  #remove-file
+    color: red
 
   // add
 

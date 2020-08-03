@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, dialog, BrowserWindow, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 import { formatToAxios, aggregateResponses, sortTimes, latencyDistribution } from '../utils/format'
 import { deployWorkers } from '../utils/workers'
@@ -66,4 +66,16 @@ ipcMain.on('run-test', async (e, request, load, workers) => {
   const statusCodes = aggResponses.statusCodes
 
   mainWindow.webContents.send('test-results', { times, distribution, statusCodes })
+})
+
+ipcMain.on('upload-files', async () => {
+  const fileSelect = await dialog.showOpenDialog({
+    buttonLabel: 'Select files',
+    defaultPath: app.getPath('home'),
+    properties: [
+      'openFile',
+      'openDirectory' ]
+  })
+
+  mainWindow.webContents.send('file', fileSelect.filePaths[0])
 })

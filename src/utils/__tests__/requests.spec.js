@@ -1,7 +1,6 @@
-const {
-  formatKeyVal,
-  formatToAxios,
-  sendRequests } = require('../requests')
+/* eslint no-undef: 0 */ // --> OFF
+
+const { formatKeyVal, formatToAxios } = require('../format')
 
 test('format nested key value array to key value map', () => {
   const keyValArr = [
@@ -13,7 +12,7 @@ test('format nested key value array to key value map', () => {
   const formatted = formatKeyVal(keyValArr)
 
   expect(formatted).toHaveProperty('key1', 'val1')
-  expect(formatted).toMatchObject({ 'key1': 'val1'})
+  expect(formatted).toMatchObject({'key1': 'val1'})
 })
 
 test('format request object to Axios config object', () => {
@@ -36,9 +35,9 @@ test('format request object to Axios config object', () => {
   expect(formatToAxios(request)).toMatchObject({
     url: 'http://tester',
     method: 'get',
-    params: { paramkey: 'paramval'},
-    headers: { headerkey: 'headerval'},
-    body: { formkey: 'formval'}
+    params: {paramkey: 'paramval'},
+    headers: {headerkey: 'headerval'},
+    body: {formkey: 'formval'}
   })
 
   request.body.active = 'text' // change to 'text type

@@ -1,5 +1,3 @@
-import FormData from 'form-data'
-
 /**
  * Formats nested key val array to key val map
  * @param {Array} keyValArray - [['key', 'val'], ..]
@@ -38,15 +36,10 @@ export const formatToAxios = request => {
 
   // request body excluded for GET requests
   if (request.method !== 'get') {
-    if (request.body.active === 'form' && body.length) {
-      const form = new FormData()
-      body.forEach(keyVal => {
-        form.append(keyVal[0], keyVal[1])
-      })
-  
-      axiosConfig.data = body
-    }
-  
+    // form data handled on `requests` worker, as read stream for file uploads can't be
+    // passed as arg, and new stream needed for each request (see 'utils/request.js')
+    if (request.body.active === 'form' && body.length) axiosConfig.data = body
+
     if (request.body.active === 'text' && body) axiosConfig.data = body
     if (request.body.active === 'json' && body) axiosConfig.data = JSON.parse(body)
   }
