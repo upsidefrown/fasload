@@ -90,19 +90,21 @@ export const latencyDistribution = sortedResponseTimes => {
   const distribution = {}
   const times = sortedResponseTimes
 
-  const tenPercentIdx = Math.floor(times.length / 10)
-  const twentyFivePercentIdx = Math.floor(times.length / 4)
-  const fiftyPercentIdx = Math.floor(times.length / 2)
-  const seventyFivePercentIdx = twentyFivePercentIdx + fiftyPercentIdx
-  const ninetyPercentIdx = times.length - tenPercentIdx
-  const ninetyNinePercentIdx = times.length - Math.floor(times.length / 100)
+  const tenPercent = Math.floor(times.length / 10)
+  const twentyFivePercent = Math.floor(times.length / 4)
+  const fiftyPercent = Math.floor(times.length / 2)
+  const seventyFivePercent = Math.floor((times.length / 4) * 3)
+  const ninetyPercent = Math.floor((times.length / 10) * 9)
+  const ninetyNinePercent = times.length - Math.floor(times.length / 100)
+  const oneHundredPercent = times.length
 
-  if (tenPercentIdx) distribution['10'] = times[tenPercentIdx + 1]
-  if (twentyFivePercentIdx) distribution['25'] = times[twentyFivePercentIdx + 1]
-  if (fiftyPercentIdx) distribution['50'] = times[fiftyPercentIdx + 1]
-  if (seventyFivePercentIdx) distribution['75'] = times[seventyFivePercentIdx + 1]
-  if (ninetyPercentIdx) distribution['90'] = times[ninetyPercentIdx + 1]
-  if (ninetyNinePercentIdx) distribution['99'] = times[ninetyNinePercentIdx + 1]
+  if (times.length >= 10 && tenPercent) distribution['10'] = times[tenPercent - 1]
+  if (times.length >= 4 && twentyFivePercent) distribution['25'] = times[twentyFivePercent - 1]
+  if (times.length >= 2 && fiftyPercent) distribution['50'] = times[fiftyPercent - 1]
+  if (times.length >= 4 && seventyFivePercent) distribution['75'] = times[seventyFivePercent - 1]
+  if (times.length >= 10 && ninetyPercent) distribution['90'] = times[ninetyPercent - 1]
+  if (times.length >= 100 && ninetyNinePercent) distribution['99'] = times[ninetyNinePercent - 1]
+  if (ninetyNinePercent) distribution['100'] = times[oneHundredPercent - 1]
 
   return distribution
 }
