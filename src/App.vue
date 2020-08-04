@@ -20,7 +20,7 @@
 </script>
 
 <style lang="sass">
-  @import "./globals.scss";
+  @import "./assets/globals.scss";
 
   #app
     padding: 2rem

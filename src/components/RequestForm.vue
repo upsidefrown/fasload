@@ -14,7 +14,7 @@
         class="input url has-text-grey"
         type="text"
         placeholder="URL"
-        v-model="urlPlusParams"/>
+        v-model="request.url"/>
 
       <button
         class="button is-primary test-btn" 

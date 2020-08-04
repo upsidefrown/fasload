@@ -1,5 +1,8 @@
 import { fork } from 'child_process'
 import { join } from 'path'
+import { worker } from 'cluster'
+
+const isDev= process.env.NODE_ENV !== 'production'
 
 /**
  * Deploys workers to perform axios requests concurrently
@@ -10,7 +13,11 @@ import { join } from 'path'
  */
 
 export const deployWorkers = async (request, load, workers) => {
-  const requestWorkerPath = join(__dirname, 'requests')
+  // https://nklayman.github.io/vue-cli-plugin-electron-builder/guide/guide.html#handling-static-assets
+  const devPath = join('src', 'workers', 'requests.js')
+  const prodPath = join(__static, 'requests.js')
+  const workerPath = isDev ? devPath : prodPath
+
   const equalLoad = Math.floor(load / workers)
   const remainderLoad = load % workers
   const workerResponses = []
@@ -19,9 +26,9 @@ export const deployWorkers = async (request, load, workers) => {
     const worker = {}
 
     if (i === Number(workers)) { // last worker gets remainder load, such is life
-      worker[i] = fork(requestWorkerPath, [(equalLoad + remainderLoad).toString(), JSON.stringify(request)])
+      worker[i] = fork(workerPath, [(equalLoad + remainderLoad).toString(), JSON.stringify(request)])
     } else {
-      worker[i] = fork(requestWorkerPath, [equalLoad.toString(), JSON.stringify(request)])
+      worker[i] = fork(workerPath, [equalLoad.toString(), JSON.stringify(request)])
     }
 
     workerResponses.push(

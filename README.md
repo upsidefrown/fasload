@@ -1,31 +1,28 @@
 # fasload
 
-> Simple and fast load testing and profiling tool for testing RESTful APIs
+> A simple, cross platform, benchmarking tool for testing RESTful services under load.
 
-#### Build Setup
-
-``` bash
-# install dependencies
+## Project setup
+```
 npm install
-
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-
-# lint all JS/Vue component files in `src/`
-npm run lint
-
 ```
 
----
+### Compiles and hot-reloads for development
+```
+npm run electron:serve
+```
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[45a3e22](https://github.com/SimulatedGREG/electron-vue/tree/45a3e224e7bb8fc71909021ccfdcfec0f461f634) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+### Compiles and minifies for production
+```
+npm run electron:build
+```
 
-## TODOS
-- add cancellation
-- add parallel threads
-- add multipart forms
-- add GUI
+### Runs unit tests
+```
+npm run test:unit
+```
+
+### Lints and fixes files
+```
+npm run lint
+```

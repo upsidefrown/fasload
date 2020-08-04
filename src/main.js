@@ -11,7 +11,6 @@ Vue.use(Buefy, {
   defaultIconPack: 'fas'
 })
 
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
 
 new Vue({
