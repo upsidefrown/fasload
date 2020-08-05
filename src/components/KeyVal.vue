@@ -52,15 +52,15 @@
             v-show="activeTab === 'body' && !request[activeTab].form[idx][1]"
             @click="uploadFile(idx)"></i>
         <div
-          class="file"
+          class="file level"
           v-if="Array.isArray(request[activeTab].form[idx][1])">
           <span
             class="filename has-text-grey has-background-white-ter">
             {{ request[activeTab].form[idx][1][1] | formatToFileName }}</span>
             <a 
               id="remove-file"
-              class="delete is-medium" 
-              @click="removeFile(idx)"></a></div>
+              class="delete is-small" 
+              @click="removeFormFile(idx)"></a></div>
       </div>
 
     </div>
@@ -82,7 +82,7 @@
     name: 'KeyVal',
     props: [ 'activeTab' ],
     methods: {
-      ...mapMutations(['addRow', 'removeRow', 'removeFile']),
+      ...mapMutations(['addRow', 'removeRow', 'removeFormFile']),
       ...mapActions(['uploadFile'])
     },
     computed: {

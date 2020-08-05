@@ -72,12 +72,14 @@ export default new Vuex.Store({
     resetOnAppReload (state) {
       state.test.active = false
     },
-    appendFilePathToBodyForm (state, { idx, filePath }) {
+    addFormFile (state, { idx, filePath }) {
       // 'file' indicator in place for differentiation & processing down the line
-      state.request.body.form[idx][1] = ['file', filePath]
+      // state.request.body.form[idx][1] = ['file', filePath]
+      Vue.set(state.request.body.form[idx], 1, ['file', filePath])
     },
-    removeFile (state, idx) {
-      state.request.body.form[idx][1] = ''
+    removeFormFile (state, idx) {
+      // see reactivity caveat - https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats
+      Vue.set(state.request.body.form[idx], 1, '')
     }
   },
   actions: {
@@ -98,7 +100,7 @@ export default new Vuex.Store({
     uploadFile ({commit}, idx) {
       ipcRenderer.send('upload-files')
       ipcRenderer.once('file', (e, filePath) => {
-        commit('appendFilePathToBodyForm', {idx, filePath})
+        commit('addFormFile', {idx, filePath})
       })
     }
   },
