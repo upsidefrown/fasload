@@ -2,6 +2,8 @@
 
 > A simple, cross platform, benchmarking tool for testing RESTful services under load.
 
+![Fasload Demo](demo.gif)
+
 ## Project setup
 ```
 npm install

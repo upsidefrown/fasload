@@ -24,7 +24,7 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 function createWindow() {
-  let windowState = windowStateKeeper({ defaultWidth: 960, defaultHeight: 680 })
+  let windowState = windowStateKeeper({ defaultWidth: 1040, defaultHeight: 770 })
 
   mainWindow = new BrowserWindow({
     width: windowState.width,
