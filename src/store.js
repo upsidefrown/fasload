@@ -74,7 +74,6 @@ export default new Vuex.Store({
     },
     addFormFile (state, { idx, filePath }) {
       // 'file' indicator in place for differentiation & processing down the line
-      // state.request.body.form[idx][1] = ['file', filePath]
       Vue.set(state.request.body.form[idx], 1, ['file', filePath])
     },
     removeFormFile (state, idx) {
