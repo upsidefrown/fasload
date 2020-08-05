@@ -15,7 +15,7 @@
             xAxes: [ { display: false } ],
             yAxes: [{
               ticks: { callback: (value) => {
-                return `${value / 1000}s`
+                return `${value / 1000}`
               }}
             }]
           }
